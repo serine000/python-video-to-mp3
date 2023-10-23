@@ -9,7 +9,7 @@ server = Flask(__name__)
 mysql = MySQL(server)
 
 # Database configurations in our server dictionary
-server.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST") #localhost
+server.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST")  # localhost
 server.config["MYSQL_USER"] = os.environ.get("MYSQL_USER")
 server.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD")
 server.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
@@ -17,6 +17,8 @@ server.config["MYSQL_PORT"] = os.environ.get("MYSQL_PORT")
 
 # Creating the routes
 server.route('/login', methods = ["POST"])
+
+
 def login():
     auth = request.authorization
     if not auth:
@@ -45,9 +47,16 @@ def login():
         return "invalid credentials do not exist", 401
 
 
-
-
-
-
-
-
+def create_jwt(username, secret, authrization):
+    return jwt.encode(
+            {
+                "username": username,
+                "expiration": datetime.datetime.now(
+                        tz = datetime.timezone.utc
+                        ) + datetime.timedelta(days = 1),
+                "iat": datetime.datetime.utcnow(),
+                "admin": authrization,
+                },
+            secret,
+            algorithm = "HS256",
+            )
