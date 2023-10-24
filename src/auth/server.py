@@ -60,3 +60,12 @@ def create_jwt(username, secret, authrization):
             secret,
             algorithm = "HS256",
             )
+
+
+if __name__ == "__main__":
+    # If we want to host our server locally but make it accessible
+    # we have to set the host to 0.0.0.0 which tells the OS to listen on all public IPs
+    # otherwise it will only be accessible from our own computer.
+    # We are telling our flask app to listen on all
+    # our docker container's IPs for incoming requests.
+    server.run(host = "0.0.0.0", port = 5000)
