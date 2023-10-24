@@ -64,6 +64,27 @@ def login():
         return str(e), 500
 
 
+@server.route("/validate", method = ["POST"])
+def validate():
+    # Not going to check the type of the authentication scheme here
+    # Just going to assume it's of Bearer type - but in production check
+    encoded_jwt = request.headers["Authorization"]
+    if not encoded_jwt:
+        return "missing credentials", 401
+    # Authorization: Bearer <token>
+    encoded_jwt = encoded_jwt.split(" ")[1]
+    try:
+        decoded = jwt.decode(
+                encoded_jwt,
+                os.environ.get("JWT_SECRET"),
+                algorithm = [os.getenv("SERVER_ENCRYPTION_ALGORITHM")]
+                )
+    except:
+        return "not authorized", 403
+
+    return decoded, 200
+
+
 def create_jwt(username, secret, authorization):
     """
     Create a JSON Web Token (JWT) for the given username, secret, and authorization.
