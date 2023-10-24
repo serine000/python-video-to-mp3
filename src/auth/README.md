@@ -10,3 +10,6 @@ Commands used:
 - Display databases: `show databases;`
 - Pick a specific database to work with: `use [database name];`
 - Display tables in specific database: `show tables;`
+
+## Building docker image
+docker bulid .
