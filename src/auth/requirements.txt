@@ -15,6 +15,7 @@ parso==0.8.3
 platformdirs==3.11.0
 PyJWT==2.8.0
 pylint==3.0.1
+python-dotenv==1.0.0
 tomli==2.0.1
 tomlkit==0.12.1
 typing_extensions==4.8.0

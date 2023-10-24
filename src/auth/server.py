@@ -4,6 +4,9 @@ import os
 from flask import Flask
 from flask import request
 from flask_mysqldb import MySQL
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Creates a Flask web application instance
 server = Flask(__name__)
@@ -19,7 +22,7 @@ server.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
 server.config["MYSQL_PORT"] = os.environ.get("MYSQL_PORT")
 
 # Creating the routes
-server.route('/login', methods = ["POST"])
+server.route("/login", methods = ["POST"])
 
 
 def login():
@@ -62,17 +65,28 @@ def login():
 
 
 def create_jwt(username, secret, authorization):
+    """
+    Create a JSON Web Token (JWT) for the given username, secret, and authorization.
+
+    Args:
+        username (str): The username to include in the JWT.
+        secret (str): The secret key used to sign the JWT.
+        authorization (bool): Whether the user has admin authorization.
+
+    Returns:
+        str: The encoded JWT.
+    """
     return jwt.encode(
             {
                 "username": username,
-                "expiration": datetime.datetime.now(
-                        tz = datetime.timezone.utc
-                        ) + datetime.timedelta(days = 1),
+                "expiration": datetime.datetime.utcnow() + datetime.timedelta(
+                        days = int(os.getenv("SERVER_JWT_EXPIRATION"))
+                        ),
                 "iat": datetime.datetime.utcnow(),
                 "admin": authorization,
                 },
             secret,
-            algorithm = "HS256",
+            algorithm = os.getenv("SERVER_ENCRYPTION_ALGORITHM"),
             )
 
 

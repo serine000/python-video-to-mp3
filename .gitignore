@@ -2,3 +2,5 @@ venv
 *.pyc
 .idea
 */venv
+*/.env
+.env
