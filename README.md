@@ -50,3 +50,11 @@ File functions:
     This also helps us determine the client's access level (e.g. an admin claim can be true or false).
 
 ### Synchronous & Asynchronous interservice communication
+- Synchronous: This is when the client service sending the request awaits the response from that service and 
+                doesn't do anything until it receives that response (it's blocked). [A blocking request] (Makes services tightly coupled)
+- Asynchronous: The client service here does not need to await the response of another service [Non-blocking request]. (Services are decoupled
+                 and communicate via some queue to submit and send requests/responses.)
+
+### Strong & Eventual Consistency
+- Strong: When you are guaranteed you are getting the latest update of the data.
+- Eventual: When you are given a token for your data that will be eventually ready (not instantaneously).
