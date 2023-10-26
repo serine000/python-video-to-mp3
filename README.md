@@ -7,6 +7,8 @@ More specifically used:
 - Python (3.10)
 - mysql
 - Docker
+- RabbitMQ
+- MongoDB (Storage DB)
 - Kubernetes
 - k9s
 - Minikube (Allows us to have a local kubernetes cluster on our own machine to build a microservices 
@@ -24,6 +26,18 @@ File functions:
   of these functionalities.
 - We allow clients to submit requests to be processed by our system even if it's placed within a private network by using an authentication service
   to validate the credentials we give to them.
+- Once the client has submitted their video file, the file gets stored in mongodb and
+  the gateway puts a message into the rabbitMQ queue to let the downstream service know
+  that there is a video to be processed in MongoBD.
+- The VideoToMP3 will consume messages from the queue and it will get the ID of the video from that message
+  in order to pull the right video from there.
+- It will perform the conversion, store the MP3 file on MongoDB then sends out a message into the queue to be consumed
+  by the notification service to let the user know that their file is ready.
+- The client will then use a unique ID acquired from the notification center + their JWT to make a request to the API gateway to 
+  download the MP3 file.
+
+
+### JWT segment
 - Basic authentication is having the client provide their credentials in the header field of their request 
   in the form authorization basic credentials `base64(username:password)`. If these credentials are found in our database, we return a Json Web Token (JWT)
   to the client which they will use for subsequent request to our gateway.
@@ -34,3 +48,5 @@ File functions:
  and signing them using the signing algorithm.
 - The goal of giving the client a JWT is to make sure that their incoming request contains a JWT that was signed with our private key and our signing algorithm.
     This also helps us determine the client's access level (e.g. an admin claim can be true or false).
+
+### Synchronous & Asynchronous interservice communication
