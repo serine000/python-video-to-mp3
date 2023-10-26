@@ -1,5 +1,7 @@
 astroid==2.9.3
+blinker==1.6.3
 click==8.0.3
+dill==0.3.7
 Flask==2.0.2
 Flask-MySQLdb==0.2.0
 isort==5.10.1
@@ -14,6 +16,10 @@ parso==0.8.3
 platformdirs==2.4.1
 PyJWT==2.3.0
 pylint==2.12.2
+python-dotenv==1.0.0
 toml==0.10.2
+tomli==2.0.1
+tomlkit==0.12.1
+typing_extensions==4.8.0
 Werkzeug==2.0.2
 wrapt==1.13.3
