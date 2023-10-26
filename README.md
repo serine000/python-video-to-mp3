@@ -9,8 +9,9 @@ More specifically used:
 - Docker
 - Kubernetes
 - k9s
-- Minikube (Allows us to have a kubernetes cluster on our own machine to build a microservices 
-             architecture locally without having to deploy it to some production server)
+- Minikube (Allows us to have a local kubernetes cluster on our own machine to build a microservices 
+             architecture locally without having to deploy it to some production server. - This allows you to simulate a multi-node Kubernetes environment 
+              in a single-node cluster, which is useful for testing and development.)
 
 File functions:
 - init.sql: Create a user and database and assign user to that database.

@@ -12,4 +12,12 @@ Commands used:
 - Display tables in specific database: `show tables;`
 
 ## Building docker image
-docker bulid .
+docker build .
+
+## Deploying service to cluster
+0. Make sure docker is running.
+1. `cd` into the manifests directory of your service.
+2. Upload the service as it is to the kubernetes cluster (`k9s`)
+3. deploy it into a minikube (`minikube start`)
+4. Check that your minikube pod is running within the kube system namespace
+5. `kubectl apply -f ./` for our files to interact with the API to create our service and its corresponding resource.
