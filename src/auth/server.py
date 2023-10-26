@@ -64,7 +64,7 @@ def login():
         return str(e), 500
 
 
-@server.route("/validate", method = ["POST"])
+@server.route("/validate", methods = ["POST"])
 def validate():
     # Not going to check the type of the authentication scheme here
     # Just going to assume it's of Bearer type - but in production check
