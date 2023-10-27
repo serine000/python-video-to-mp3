@@ -81,3 +81,18 @@ def upload_file():
         return "not authorized", 401
 
     return "success", 200
+
+
+@server.route("/download", methods = ["GET"])
+def download_mp3():
+    """
+    Download the MP3 file that was generated from the uploaded video.
+
+    Returns:
+        file: The MP3 file stored in the database.
+    """
+    pass
+
+
+if __name__ == "__main__":
+    server.run(host = "0.0.0.0", port = 8080)
