@@ -22,12 +22,12 @@ server.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
 server.config["MYSQL_PORT"] = os.environ.get("MYSQL_PORT")
 
 # Creating the routes
-server.route("/login", methods = ["POST"])
 
-
-def login():
+@server.route("/login", methods = ["POST"])
+def auth_login():
     """
-    Authenticates the user and returns a JWT token if the credentials are valid.
+    Authenticates the user in the database
+    and returns a JWT token if the credentials are valid.
 
     Returns:
         str: JWT token if the credentials are valid.
@@ -65,7 +65,14 @@ def login():
 
 
 @server.route("/validate", methods = ["POST"])
-def validate():
+def auth_validate():
+    """
+    Validate and decode the authorization JWT from incoming request.
+
+    Returns:
+            str: The decoded JWT.
+    """
+
     # Not going to check the type of the authentication scheme here
     # Just going to assume it's of Bearer type - but in production check
     encoded_jwt = request.headers["Authorization"]
