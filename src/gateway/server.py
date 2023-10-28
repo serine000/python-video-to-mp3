@@ -26,7 +26,7 @@ mongo = PyMongo(server)
 # and stores each chunk as a separate document.
 # GridFS uses two collections to store files, one that stores the file chunks and one
 # for the file metadata.
-fs = gridfs.GridFS(mongo.db)
+gridfs_instance = gridfs.GridFS(mongo.db)
 
 # RabbitMQ connection
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
@@ -64,16 +64,21 @@ def upload_file():
     access, err = validate.check_token(request)
 
     # deserialize the json web token
-    access = json.loads(access)
+    access_token = json.loads(access)
 
     # if user is authorized
-    if access["admin"]:
+    if access_token["admin"]:
         # Upload one file at a time
         if len(request.files) > 1 or len(request.files) < 1:
             return "exactly 1 file required", 400
 
-        for _, f in request.files.items():
-            err = util.upload(f, fs, channel, access)
+        for _, video_file in request.files.items():
+            err = util.upload_video_to_database(
+                    video_file,
+                    gridfs_instance,
+                    channel,
+                    access_token
+                    )
 
             if err:
                 return err
