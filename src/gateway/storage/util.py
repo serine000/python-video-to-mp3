@@ -1,5 +1,4 @@
 import gridfs
-import rabbitmq
 import pika
 import json
 
